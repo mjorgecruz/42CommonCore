@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:42:32 by masoares          #+#    #+#             */
-/*   Updated: 2023/12/18 18:54:40 by masoares         ###   ########.fr       */
+/*   Updated: 2023/12/19 11:36:05 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char **array_creator2_bonus(char *str)
 	return (final_array);
 }
 
-void	ft_free_pipex1_bonus(char ***altv)
+void	free_p1_bonus(char ***altv)
 {
 	int	i;
 
@@ -80,7 +80,7 @@ void	ft_free_pipex1_bonus(char ***altv)
 	free(*altv);
 }
 
-void	ft_free_pipex2_bonus(char ***altv)
+void	free_p2_bonus(char ****altv)
 {
 	int	i;
 

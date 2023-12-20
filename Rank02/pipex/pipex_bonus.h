@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 11:24:12 by masoares          #+#    #+#             */
-/*   Updated: 2023/12/18 18:53:50 by masoares         ###   ########.fr       */
+/*   Updated: 2023/12/19 11:36:23 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <string.h>
 #include "./libft/libft.h"
 
 typedef struct s_data
@@ -25,12 +26,13 @@ typedef struct s_data
 	int fd[2];
 	int	df;
 	char **altv1;
-	char **altv2;
+	char ***altv2;
 }       t_data;
 
-void	pipex_bonus(t_data *data);
+void	pipex_bonus(t_data *data, char **av, int com);
 char **array_creator_bonus(char *file, char *str);
 char **array_creator2_bonus(char *str);
-void	ft_free_pipex1_bonus(char ***altv);
-void	ft_free_pipex2_bonus(char ***altv);
+void	free_p1_bonus(char ***altv);
+void	free_p2_bonus(char ****altv);
 
+void    errors_bonus(int num, char *str, t_data *data);

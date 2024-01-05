@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 08:37:58 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/04 08:57:13 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/04 23:44:34 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int ft_atoi(char *num)
 	
 	i = 0;
 	n = 0;
-	if (num[0] == "-")
+	if (num[0] == '-')
 		errors(2);
 	while (num[i])
 	{
-		if (num[i] > "9" || num[i] > "0")
+		if (num[i] > '9' || num[i] < '0')
 			errors(3);
 		n = n * 10;
-		n = n + (num - "0");
+		n = n + (num[i] - '0');
 		i++;
 	}
 	if (n > INT_MAX)

@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 07:52:04 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/04 23:38:25 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/05 19:49:43 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_data
 	int n_times_eat;
 	struct timeval start_time;
 	struct timeval current_time;
+	struct timeval last_meal;
 }       t_data;
 
 typedef struct s_philo
@@ -44,11 +45,16 @@ typedef struct s_philo
 /* ************************************************************************** */
 int		*type_converter(int ac, char **av);
 void	*routine(void *arg);
+void	locking_forks(t_philo *philo);
+void	unlocking_forks(t_philo *philo);
 
 /* ************************************************************************** */
 /*                              PHILO_UTILS                                   */
 /* ************************************************************************** */
 int		ft_atoi(char *num);
+void	eating(t_data *data, int id);
+void	sleeping(t_data *data, int id);
+void	thinking(t_data *data, int id);
 
 /* ************************************************************************** */
 /*                              PHILO_ERRORS                                  */

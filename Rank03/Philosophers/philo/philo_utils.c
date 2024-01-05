@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 08:37:58 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/04 23:44:34 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/05 17:05:08 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,36 @@ int ft_atoi(char *num)
 	if (n > INT_MAX)
 		errors(4);
 	return ((int) n);
+}
+
+void	eating(t_data *data,  int id)
+{
+		long time;
+	
+	gettimeofday(&((*data).current_time), NULL);
+	time = ((*data).current_time.tv_sec - (*data).start_time.tv_sec)*1000 +
+			((*data).current_time.tv_usec - (*data).start_time.tv_usec)/1000;
+	printf("%ld %d is eating\n", time, id);
+	usleep(data->t_eat * 1000);
+}
+
+void sleeping(t_data *data, int id)
+{
+	long time;
+	
+	gettimeofday(&((*data).current_time), NULL);
+	time = ((*data).current_time.tv_sec - (*data).start_time.tv_sec)*1000 +
+			((*data).current_time.tv_usec - (*data).start_time.tv_usec)/1000;
+	printf("%ld %d is sleeping\n", time, id);
+	usleep(data->t_sleep * 1000);
+}
+
+void thinking(t_data *data, int id)
+{
+	long time;
+	
+	gettimeofday(&((*data).current_time), NULL);
+	time = ((*data).current_time.tv_sec - (*data).start_time.tv_sec)*1000 +
+			((*data).current_time.tv_usec - (*data).start_time.tv_usec)/1000;
+	printf("%ld %d is thinking\n", time, id);
 }

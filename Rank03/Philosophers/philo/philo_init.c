@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:46:18 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/05 00:13:48 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/05 14:46:08 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	init_threads(t_philo **philos, int n_of_philos, t_data *data)
 		return ;
 	init_structs(philos, n_of_philos, data);
 	
+	gettimeofday(&((*data).start_time), NULL);
 	while (i < n_of_philos)
 	{
 		pthread_mutex_init(&((*philos)[i].left_fork), NULL);

@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 07:50:43 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/05 19:44:47 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/05 23:47:38 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void locking_forks(t_philo *philo)
 		pthread_mutex_unlock(&((*philo).left_fork));
 		pthread_mutex_unlock((*philo).right_fork);
 	}
-	gettimeofday(&((*(*philo).data).current_time), NULL);
 	time = (((*philo).data)->current_time.tv_sec - 
 			((*philo).data)->start_time.tv_sec) * 1000 +
 			(((*philo).data)->current_time.tv_usec - 

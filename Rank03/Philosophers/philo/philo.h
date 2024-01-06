@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 07:52:04 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/05 19:49:43 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/06 15:27:35 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <pthread.h>
 #include <limits.h>
 #include <sys/time.h>
+#include <stdbool.h>
 
 typedef struct s_data
 {
@@ -26,9 +27,10 @@ typedef struct s_data
 	int t_eat;
 	int t_sleep;
 	int n_times_eat;
+	int n_philos;
 	struct timeval start_time;
 	struct timeval current_time;
-	struct timeval last_meal;
+	bool			kill_switch;
 }       t_data;
 
 typedef struct s_philo
@@ -38,7 +40,18 @@ typedef struct s_philo
 	t_data *data;
 	pthread_mutex_t left_fork;
 	pthread_mutex_t *right_fork;
+	bool is_eating;
+	struct timeval last_meal;
 }       t_philo;
+
+typedef struct s_joker
+{
+	t_philo 	**philos;
+	t_data		*data;
+	int			*time_left;
+	pthread_t 	joker;
+	bool 		kill_switch;
+}		t_joker;
 
 /* ************************************************************************** */
 /*                                 PHILO                                      */
@@ -55,6 +68,7 @@ int		ft_atoi(char *num);
 void	eating(t_data *data, int id);
 void	sleeping(t_data *data, int id);
 void	thinking(t_data *data, int id);
+void	*routine2(void *arg);
 
 /* ************************************************************************** */
 /*                              PHILO_ERRORS                                  */
@@ -67,6 +81,7 @@ void	errors(int code);
 void	init_data(t_data *data, int *args);
 void	init_threads(t_philo **philos, int n_of_philos, t_data *data);
 void	init_structs(t_philo **philos, int n_of_philos, t_data *data);
+void 	init_joker(t_joker *joker, t_data *data, t_philo **philos, int n_philos);
 
 /* ************************************************************************** */
 /*                              PHILO_FINEX                                   */

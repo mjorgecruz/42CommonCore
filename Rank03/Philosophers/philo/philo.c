@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 07:50:43 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/05 23:47:38 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/08 22:46:07 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,28 @@ int	main(int ac, char **av)
 	int *args;
 	t_philo *philos;
 	t_data data;
+	int i;
 	
+	i = 0;
 	if (ac < 5 || ac > 6)
-		errors(1);
+		return(errors(1), -1);
 	args = type_converter(ac, av);
+	if (args == NULL)
+		return (-2);
+	while (i < 5)
+	{
+		if (args[i] < -1)
+			return(errors(1), free(args), -3);
+		i++;
+	}
+	philos = malloc(sizeof(t_philo) * args[0]);
+	if (philos == NULL)
+		return 1;
 	init_data(&data, args);
-	init_threads(&philos, args[0], &data);
+	init_threads(philos, args[0], &data);
+	finex_threads(philos, &data);
 	free(args);
 	free(philos);
-	//finex_threads();
 }
 
 int	*type_converter(int ac, char **av)
@@ -39,7 +52,7 @@ int	*type_converter(int ac, char **av)
 	i = 0;
 	if (ac == 5)
 	{
-		conv_args[5] = 0;
+		conv_args[4] = -1;
 		while (i < 4)
 		{
 			conv_args[i] = ft_atoi(av[i + 1]);
@@ -62,21 +75,21 @@ void	*routine(void *arg)
 	t_philo *philo;
 	
 	philo = (t_philo *) arg;
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 != 0)
 	{
-		pthread_mutex_lock(&((*philo).left_fork));
-		pthread_mutex_lock(((*philo).right_fork));
-		eating((*philo).data, (*philo).id);
-		unlocking_forks(philo);
-		sleeping((*philo).data, (*philo).id);
+		thinking(philo, (*philo).id);
+		usleep(1000);
 	}
-	while (1)
+	while (philo->data->kill_switch == false 
+		&& philo->meals != philo->data->n_times_eat)
 	{
-		thinking((*philo).data, (*philo).id);
 		locking_forks(philo);
-		eating((*philo).data, (*philo).id);
+		eating(philo, (*philo).id);
 		unlocking_forks(philo);
-		sleeping((*philo).data, (*philo).id);
+		sleeping(philo, (*philo).id);
+		if (philo->meals == philo->data->n_times_eat)
+			return (NULL);
+		thinking(philo, (*philo).id);
 	}
 	return(NULL);
 }
@@ -85,18 +98,16 @@ void locking_forks(t_philo *philo)
 {
 	long	time;
 	
-	while (pthread_mutex_lock(&((*philo).left_fork)) 
-		|| pthread_mutex_lock((*philo).right_fork))
+	if (pthread_mutex_lock(&((*philo).left_fork)) == 0 
+		&& pthread_mutex_lock((*philo).right_fork) == 0
+		&& philo->data->kill_switch == false)
 	{
-		pthread_mutex_unlock(&((*philo).left_fork));
-		pthread_mutex_unlock((*philo).right_fork);
+		time = philo->data->current - philo->data->start;
+		printf("%ld %d has taken a fork\n", time, philo->id);
+		printf("%ld %d has taken a fork\n", time, philo->id);
 	}
-	time = (((*philo).data)->current_time.tv_sec - 
-			((*philo).data)->start_time.tv_sec) * 1000 +
-			(((*philo).data)->current_time.tv_usec - 
-			((*philo).data)->start_time.tv_usec) / 1000;
-	printf("%ld %d has taken a fork\n", time, philo->id);
-	printf("%ld %d has taken a fork\n", time, philo->id);
+	// pthread_mutex_unlock(&((*philo).left_fork));
+	// pthread_mutex_unlock((*philo).right_fork);
 }
 
 void unlocking_forks(t_philo *philo)

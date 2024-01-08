@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 08:37:58 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/06 15:38:20 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/08 22:44:43 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,68 +20,96 @@ int	ft_atoi(char *num)
 	i = 0;
 	n = 0;
 	if (num[0] == '-')
-		errors(2);
+		return(-2);
 	while (num[i])
 	{
 		if (num[i] > '9' || num[i] < '0')
-			errors(3);
+			return(-2);
 		n = n * 10;
 		n = n + (num[i] - '0');
 		i++;
 	}
 	if (n > INT_MAX)
-		errors(4);
+		return(-2);
 	return ((int) n);
 }
 
-void	eating(t_data *data,  int id)
+void	eating(t_philo *philo,  int id)
 {
 	long time;
 
-	time = ((*data).current_time.tv_sec - (*data).start_time.tv_sec)*1000 +
-			((*data).current_time.tv_usec - (*data).start_time.tv_usec)/1000;
+	time = philo->data->current - philo->data->start;
+	if (philo->data->kill_switch == true)
+		return ;
 	printf("%ld %d is eating\n", time, id);
-	usleep(data->t_eat * 1000);
+	philo->last_m = get_time();
+	usleep(philo->data->t_eat * 1000);
+	philo->meals++;
+	if (philo->meals == philo->data->n_times_eat)
+		philo->fed = true;
 }
 
-void	sleeping(t_data *data, int id)
+void	sleeping(t_philo *philo, int id)
 {
 	long time;
 
-	time = ((*data).current_time.tv_sec - (*data).start_time.tv_sec)*1000 +
-			((*data).current_time.tv_usec - (*data).start_time.tv_usec)/1000;
-	printf("%ld %d is sleeping\n", time, id);
-	usleep(data->t_sleep * 1000);
+	time = philo->data->current - philo->data->start;
+	if (philo->data->kill_switch == true)
+		return ;
+	else	
+		printf("%ld %d is sleeping\n", time, id);
+	usleep(philo->data->t_sleep * 1000);
 }
 
-void	thinking(t_data *data, int id)
+void	thinking(t_philo *philo, int id)
 {
 	long time;
 
-	time = ((*data).current_time.tv_sec - (*data).start_time.tv_sec)*1000 +
-			((*data).current_time.tv_usec - (*data).start_time.tv_usec)/1000;
-	printf("%ld %d is thinking\n", time, id);
+	time = philo->data->current - philo->data->start;
+	if (philo->data->kill_switch == true)
+		return ;
+	else
+		printf("%ld %d is thinking\n", time, id);
 }
 
-void	*routine2(void *arg)
+void	monitoring(t_philo *philos)
 {
-	t_joker *joker;
 	int		i;
+	long	time;
 	
-	joker = (t_joker *) arg;
-	while(1)
+	i = 0;
+	philos->data->feds = 0;
+	while (i < philos->data->n_philos)
 	{
-		i = 0;
-		while (i < (joker->data)->n_philos)
+		philos[i].time_left = time_left_calc(philos[i], philos[i].data);
+		if (philos[i].time_left > philos->data->t_die)
 		{
-			if((joker->data->current_time - joker->philos)[i]->last_meal 
-			{
-				i = kill;
-				break;
-			}
-			
-			i++;
+			philos->data->kill_switch = true;
+			time = philos->data->current - philos->data->start;
+			printf("%ld %d died\n", time, (i + 1));
+			break ;
 		}
+		if (philos[i].fed == true)
+		 	philos->data->feds++;
+		i++;
 	}
+}
 
+int time_left_calc(t_philo philos, t_data *data)
+{
+	int time_left;
+
+	time_left = data->current - philos.last_m;
+	return (time_left);
+}
+
+long	get_time()
+{
+	struct timeval current;
+	long	time;
+	gettimeofday(&current, NULL);
+	time = current.tv_sec * 1000 + current.tv_usec / 1000;
+
+	return (time);
+	
 }

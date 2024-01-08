@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 08:09:21 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/04 21:02:06 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/08 22:20:43 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	errors(int code)
 		printf("Bad formatting: please input:\n"
 			"\"./philo <number_of_philosophers> <time_to_die> "
 			"<time_to_eat> <time_to_sleep> <[number_of_times_each_"
-			"philosopher_must_eat]>\" (all positive integers)");
-		exit(EXIT_FAILURE);
+			"philosopher_must_eat]>\" (all positive integers)\n");
 	}
 }

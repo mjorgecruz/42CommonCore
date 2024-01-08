@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 07:52:04 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/06 15:27:35 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/08 22:56:40 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,52 +23,48 @@
 
 typedef struct s_data
 {
-	int t_die;
-	int t_eat;
-	int t_sleep;
-	int n_times_eat;
-	int n_philos;
-	struct timeval start_time;
-	struct timeval current_time;
+	int 			t_die;
+	int 			t_eat;
+	int 			t_sleep;
+	int 			n_times_eat;
+	int 			n_philos;
+	long			start;
+	long			current;
 	bool			kill_switch;
+	int				feds;
 }       t_data;
 
 typedef struct s_philo
 {
-	int     id;
-	pthread_t philo;
-	t_data *data;
+	int     		id;
+	pthread_t 		philo;
+	t_data 			*data;
 	pthread_mutex_t left_fork;
 	pthread_mutex_t *right_fork;
-	bool is_eating;
-	struct timeval last_meal;
+	bool 			fed;
+	int				meals;
+	long			last_m;
+	int			time_left;
 }       t_philo;
-
-typedef struct s_joker
-{
-	t_philo 	**philos;
-	t_data		*data;
-	int			*time_left;
-	pthread_t 	joker;
-	bool 		kill_switch;
-}		t_joker;
 
 /* ************************************************************************** */
 /*                                 PHILO                                      */
 /* ************************************************************************** */
 int		*type_converter(int ac, char **av);
 void	*routine(void *arg);
-void	locking_forks(t_philo *philo);
+void 	locking_forks(t_philo *philo);
 void	unlocking_forks(t_philo *philo);
 
 /* ************************************************************************** */
 /*                              PHILO_UTILS                                   */
 /* ************************************************************************** */
 int		ft_atoi(char *num);
-void	eating(t_data *data, int id);
-void	sleeping(t_data *data, int id);
-void	thinking(t_data *data, int id);
-void	*routine2(void *arg);
+void	eating(t_philo *philo, int id);
+void	sleeping(t_philo *philo, int id);
+void	thinking(t_philo *philo, int id);
+void	monitoring(t_philo *philos);
+int 	time_left_calc(t_philo philos, t_data *data);
+long	get_time();
 
 /* ************************************************************************** */
 /*                              PHILO_ERRORS                                  */
@@ -79,12 +75,12 @@ void	errors(int code);
 /*                               PHILO_INIT                                   */
 /* ************************************************************************** */
 void	init_data(t_data *data, int *args);
-void	init_threads(t_philo **philos, int n_of_philos, t_data *data);
-void	init_structs(t_philo **philos, int n_of_philos, t_data *data);
-void 	init_joker(t_joker *joker, t_data *data, t_philo **philos, int n_philos);
+void	init_threads(t_philo *philos, int n_of_philos, t_data *data);
+void	init_structs(t_philo *philos, int n_of_philos, t_data *data);
 
 /* ************************************************************************** */
 /*                              PHILO_FINEX                                   */
 /* ************************************************************************** */
+void finex_threads(t_philo *philos, t_data *data);
 
 #endif

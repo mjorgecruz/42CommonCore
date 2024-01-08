@@ -6,13 +6,13 @@
 #    By: masoares <masoares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 07:54:38 by masoares          #+#    #+#              #
-#    Updated: 2024/01/04 23:46:41 by masoares         ###   ########.fr        #
+#    Updated: 2024/01/08 21:46:32 by masoares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -pthread -g
+CFLAGS = -Wall -Werror -Wextra -pthread -g -fsanitize=address
 
 NAME = philo
 

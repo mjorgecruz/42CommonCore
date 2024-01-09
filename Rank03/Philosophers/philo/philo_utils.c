@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 08:37:58 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/08 22:44:43 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/09 21:56:36 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,102 +14,104 @@
 
 int	ft_atoi(char *num)
 {
-	int i;
-	long n;
-	
+	int		i;
+	long	n;
+
 	i = 0;
 	n = 0;
 	if (num[0] == '-')
-		return(-2);
+		return (-2);
 	while (num[i])
 	{
 		if (num[i] > '9' || num[i] < '0')
-			return(-2);
+			return (-2);
 		n = n * 10;
 		n = n + (num[i] - '0');
 		i++;
 	}
 	if (n > INT_MAX)
-		return(-2);
+		return (-2);
 	return ((int) n);
 }
 
-void	eating(t_philo *philo,  int id)
+void	eating(t_philo *philo, int id)
 {
-	long time;
+	long long	time;
 
-	time = philo->data->current - philo->data->start;
-	if (philo->data->kill_switch == true)
+	time = get_long(&(philo->data->data), &(philo->data->current))
+		- get_long(&(philo->data->data), &(philo->data->start));
+	if (get_bool(&(philo->data->data), &(philo->data->kill_switch)) == true)
 		return ;
-	printf("%ld %d is eating\n", time, id);
+	printf("%lld %d is eating\n", time, id);
+	pthread_mutex_lock(&(philo->data->data));
 	philo->last_m = get_time();
-	usleep(philo->data->t_eat * 1000);
+	pthread_mutex_unlock(&(philo->data->data));
+	ft_usleep(philo->data->t_eat);
 	philo->meals++;
 	if (philo->meals == philo->data->n_times_eat)
-		philo->fed = true;
+		set_bool(&(philo->data->data), true, &(philo->fed));
 }
 
 void	sleeping(t_philo *philo, int id)
 {
-	long time;
+	long long	time;
 
-	time = philo->data->current - philo->data->start;
-	if (philo->data->kill_switch == true)
+	time = get_long(&(philo->data->data), &(philo->data->current))
+		- get_long(&(philo->data->data), &(philo->data->start));
+	if (get_bool(&(philo->data->data), &(philo->data->kill_switch)) == true)
 		return ;
-	else	
-		printf("%ld %d is sleeping\n", time, id);
-	usleep(philo->data->t_sleep * 1000);
+	else
+		printf("%lld %d is sleeping\n", time, id);
+	ft_usleep(philo->data->t_sleep);
 }
 
 void	thinking(t_philo *philo, int id)
 {
-	long time;
+	long long	time;
 
-	time = philo->data->current - philo->data->start;
-	if (philo->data->kill_switch == true)
+	time = get_long(&(philo->data->data), &(philo->data->current))
+		- get_long(&(philo->data->data), &(philo->data->start));
+	if (get_bool(&(philo->data->data), &(philo->data->kill_switch)) == true)
 		return ;
 	else
-		printf("%ld %d is thinking\n", time, id);
+		printf("%lld %d is thinking\n", time, id);
 }
 
 void	monitoring(t_philo *philos)
 {
-	int		i;
-	long	time;
-	
+	int			i;
+	long long	time;
+
 	i = 0;
-	philos->data->feds = 0;
+	set_int(&(philos->data->data), 0, &(philos->data->feds));
 	while (i < philos->data->n_philos)
 	{
-		philos[i].time_left = time_left_calc(philos[i], philos[i].data);
+		philos[i].time_left = get_long(&(philos->data->data),
+				&(philos->data->current))
+			- get_long(&(philos->data->data), &(philos[i].last_m));
+		if (get_bool(&(philos->data->data), &(philos[i].fed)) == true)
+		{
+			set_int(&(philos->data->data),
+				philos->data->feds + 1, &philos->data->feds);
+		}
 		if (philos[i].time_left > philos->data->t_die)
 		{
-			philos->data->kill_switch = true;
-			time = philos->data->current - philos->data->start;
-			printf("%ld %d died\n", time, (i + 1));
-			break ;
+			set_bool(&(philos->data->data), true, &(philos->data->kill_switch));
+			time = get_long(&(philos->data->data), &(philos->data->current))
+				- get_long(&(philos->data->data), &(philos->data->start));
+			printf("%lld %d died\n", time, (i + 1));
+			return ;
 		}
-		if (philos[i].fed == true)
-		 	philos->data->feds++;
 		i++;
 	}
 }
 
-int time_left_calc(t_philo philos, t_data *data)
+long	get_time(void)
 {
-	int time_left;
+	struct timeval	current;
+	long			time;
 
-	time_left = data->current - philos.last_m;
-	return (time_left);
-}
-
-long	get_time()
-{
-	struct timeval current;
-	long	time;
 	gettimeofday(&current, NULL);
 	time = current.tv_sec * 1000 + current.tv_usec / 1000;
-
 	return (time);
-	
 }

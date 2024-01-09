@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:46:18 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/08 22:57:09 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/09 22:13:09 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,42 @@ void	init_data(t_data *data, int *args)
 	(*data).n_times_eat = args[4];
 	(*data).kill_switch = false;
 	(*data).feds = 0;
+	pthread_mutex_init(&((*data).data), NULL);
 }
 
 void	init_threads(t_philo *philos, int n_of_philos, t_data *data)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
+	if (n_of_philos < 2)
+	{
+		f_condition(data);
+		return ;
+	}
 	init_structs(philos, n_of_philos, data);
 	data->start = get_time();
 	data->current = get_time();
 	while (i < n_of_philos)
 	{
-		philos[i].last_m = get_time();
-		pthread_mutex_init(&philos[i].left_fork, NULL);
+		set_long(&data->data, get_time(), &(philos[i].last_m));
 		pthread_create(&philos[i].philo, NULL, &routine, &philos[i]);
 		i++;
 	}
-	while (philos->data->kill_switch == false && data->feds != data->n_times_eat)
+	while (get_bool(&data->data, &philos->data->kill_switch) == false
+		&& get_int(&data->data, &data->feds) != data->n_philos)
 	{
+		pthread_mutex_lock(&(data->data));
 		data->current = get_time();
+		pthread_mutex_unlock(&(data->data));
 		monitoring(philos);
 	}
 }
 
 void	init_structs(t_philo *philos, int n_of_philos, t_data *data)
 {
-	int	 i;
-	
+	int	i;
+
 	i = 0;
 	while (i < n_of_philos)
 	{
@@ -58,10 +66,22 @@ void	init_structs(t_philo *philos, int n_of_philos, t_data *data)
 		philos[i].fed = false;
 		philos[i].data->kill_switch = false;
 		if (i == n_of_philos - 1)
-			philos[i].right_fork = &philos[0].left_fork; 
+			philos[i].right_fork = &philos[0].left_fork;
 		else
 			philos[i].right_fork = &philos[i + 1].left_fork;
+		pthread_mutex_init(&philos[i].left_fork, NULL);
 		i++;
-		
 	}
+}
+
+int f_condition(t_data *data)
+{
+	if (data->n_philos == 0)
+		return (0);
+	else
+	{
+		printf("1 picked a fork");
+		printf("died");
+	}
+	return (1); 
 }

@@ -6,17 +6,18 @@
 #    By: masoares <masoares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 07:54:38 by masoares          #+#    #+#              #
-#    Updated: 2024/01/08 21:46:32 by masoares         ###   ########.fr        #
+#    Updated: 2024/01/09 16:10:59 by masoares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -pthread -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -pthread -g -fsanitize=thread
 
 NAME = philo
 
-SRCS = philo.c philo_errors.c philo_init.c philo_utils.c philo_finex.c
+SRCS = philo.c philo_errors.c philo_init.c philo_utils.c philo_finex.c \
+		philo_utils_2.c
 
 BONUS_SRCS = 
 

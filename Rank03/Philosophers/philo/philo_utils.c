@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 08:37:58 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/09 21:56:36 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/10 10:12:21 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	monitoring(t_philo *philos)
 	long long	time;
 
 	i = 0;
+	//set_long(&philos->data->data, get_time(), &(philos->data->current));
 	set_int(&(philos->data->data), 0, &(philos->data->feds));
 	while (i < philos->data->n_philos)
 	{
@@ -94,9 +95,10 @@ void	monitoring(t_philo *philos)
 			set_int(&(philos->data->data),
 				philos->data->feds + 1, &philos->data->feds);
 		}
-		if (philos[i].time_left > philos->data->t_die)
+		if (philos[i].time_left >= philos->data->t_die)
 		{
 			set_bool(&(philos->data->data), true, &(philos->data->kill_switch));
+			//set_long(&philos->data->data, get_time(), &(philos->data->current));
 			time = get_long(&(philos->data->data), &(philos->data->current))
 				- get_long(&(philos->data->data), &(philos->data->start));
 			printf("%lld %d died\n", time, (i + 1));

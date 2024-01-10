@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 07:50:43 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/09 21:37:54 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/10 09:58:53 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *) arg;
-	if (philo->id % 2 == 0)
+	while (get_bool(&philo->data->data, &(philo->data->ok)))
+	;
 		thinking(philo, (*philo).id);
 	while (get_bool(&(philo->data->data), &philo->data->kill_switch) == false
 		&& philo->meals != philo->data->n_times_eat)

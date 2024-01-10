@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 07:52:04 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/09 22:13:24 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/10 10:14:33 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_data
 	bool			kill_switch;
 	int				feds;
 	pthread_mutex_t	data;
+	bool			ok;
 }	t_data;
 
 typedef struct s_philo
@@ -51,48 +52,48 @@ typedef struct s_philo
 /* ************************************************************************** */
 /*                                 PHILO                                      */
 /* ************************************************************************** */
-int		*type_converter(int ac, char **av);
-void	*routine(void *arg);
-void	locking_forks(t_philo *philo);
-void	unlocking_forks(t_philo *philo);
+int			*type_converter(int ac, char **av);
+void		*routine(void *arg);
+void		locking_forks(t_philo *philo);
+void		unlocking_forks(t_philo *philo);
 
 /* ************************************************************************** */
 /*                              PHILO_UTILS                                   */
 /* ************************************************************************** */
-int		ft_atoi(char *num);
-void	eating(t_philo *philo, int id);
-void	sleeping(t_philo *philo, int id);
-void	thinking(t_philo *philo, int id);
-void	monitoring(t_philo *philos);
-long	get_time(void);
+int			ft_atoi(char *num);
+void		eating(t_philo *philo, int id);
+void		sleeping(t_philo *philo, int id);
+void		thinking(t_philo *philo, int id);
+void		monitoring(t_philo *philos);
+long		get_time(void);
 
 /* ************************************************************************** */
 /*                             PHILO_UTILS_2                                  */
 /* ************************************************************************** */
-void	set_int(pthread_mutex_t *mutex, int value, int *info);
-void	set_long(pthread_mutex_t *mutex, long long value, long long *info);
-void	set_bool(pthread_mutex_t *mutex, bool value, bool *info);
-int		get_int(pthread_mutex_t *mutex, int *info);
+void		set_int(pthread_mutex_t *mutex, int value, int *info);
+void		set_long(pthread_mutex_t *mutex, long long value, long long *info);
+void		set_bool(pthread_mutex_t *mutex, bool value, bool *info);
+int			get_int(pthread_mutex_t *mutex, int *info);
 long long	get_long(pthread_mutex_t *mutex, long long *info);
-bool	get_bool(pthread_mutex_t *mutex, bool *info);
-int		ft_usleep(long long milliseconds);
+bool		get_bool(pthread_mutex_t *mutex, bool *info);
+int			ft_usleep(long long milliseconds);
 
 /* ************************************************************************** */
 /*                              PHILO_ERRORS                                  */
 /* ************************************************************************** */
-void	errors(int code);
+void		errors(int code);
 
 /* ************************************************************************** */
 /*                               PHILO_INIT                                   */
 /* ************************************************************************** */
-void	init_data(t_data *data, int *args);
-void	init_threads(t_philo *philos, int n_of_philos, t_data *data);
-void	init_structs(t_philo *philos, int n_of_philos, t_data *data);
-int f_condition(t_data *data);
+void		init_data(t_data *data, int *args);
+void		init_threads(t_philo *philos, int n_of_philos, t_data *data);
+void		init_structs(t_philo *philos, int n_of_philos, t_data *data);
+int 		f_condition(t_data *data);
 
 /* ************************************************************************** */
 /*                              PHILO_FINEX                                   */
 /* ************************************************************************** */
-void	finex_threads(t_philo *philos, t_data *data);
+void		finex_threads(t_philo *philos, t_data *data);
 
 #endif

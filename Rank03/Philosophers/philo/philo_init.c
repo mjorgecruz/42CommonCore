@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:46:18 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/09 22:13:09 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/10 09:57:02 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	init_data(t_data *data, int *args)
 	(*data).n_times_eat = args[4];
 	(*data).kill_switch = false;
 	(*data).feds = 0;
+	(*data).ok = false;
 	pthread_mutex_init(&((*data).data), NULL);
 }
 
@@ -35,20 +36,19 @@ void	init_threads(t_philo *philos, int n_of_philos, t_data *data)
 		return ;
 	}
 	init_structs(philos, n_of_philos, data);
-	data->start = get_time();
-	data->current = get_time();
+	set_long(&data->data, get_time(), &(data->start));
+	set_long(&data->data, get_time(), &(data->current));
 	while (i < n_of_philos)
 	{
 		set_long(&data->data, get_time(), &(philos[i].last_m));
 		pthread_create(&philos[i].philo, NULL, &routine, &philos[i]);
 		i++;
 	}
+	set_bool(&data->data, true, &(data->ok));
 	while (get_bool(&data->data, &philos->data->kill_switch) == false
 		&& get_int(&data->data, &data->feds) != data->n_philos)
 	{
-		pthread_mutex_lock(&(data->data));
-		data->current = get_time();
-		pthread_mutex_unlock(&(data->data));
+		set_long(&data->data, get_time(), &(data->current));
 		monitoring(philos);
 	}
 }

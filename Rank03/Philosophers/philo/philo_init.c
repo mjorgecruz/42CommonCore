@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:46:18 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/10 09:57:02 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/10 13:43:06 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,12 @@ void	init_threads(t_philo *philos, int n_of_philos, t_data *data)
 		i++;
 	}
 	set_bool(&data->data, true, &(data->ok));
-	while (get_bool(&data->data, &philos->data->kill_switch) == false
-		&& get_int(&data->data, &data->feds) != data->n_philos)
+	while (get_bool(&data->data, &philos->data->kill_switch) == false)
 	{
 		set_long(&data->data, get_time(), &(data->current));
 		monitoring(philos);
+		if (get_int(&data->data, &data->feds) == data->n_philos)
+			set_bool(&data->data, true, &(data->kill_switch));
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:46:18 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/10 13:43:06 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/11 20:15:07 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,15 @@ void	init_threads(t_philo *philos, int n_of_philos, t_data *data)
 		return ;
 	}
 	init_structs(philos, n_of_philos, data);
-	set_long(&data->data, get_time(), &(data->start));
-	set_long(&data->data, get_time(), &(data->current));
+	//set_long(&data->data, get_time(), &(data->start));
+	//set_long(&data->data, get_time(), &(data->start));
+	//set_long(&data->data, get_time(), &(data->current));
+	data->start = get_time();
+	data->current = get_time();
+	philos->last_m = get_time();
 	while (i < n_of_philos)
 	{
-		set_long(&data->data, get_time(), &(philos[i].last_m));
+		//set_long(&data->data, get_time(), &(philos->last_m));
 		pthread_create(&philos[i].philo, NULL, &routine, &philos[i]);
 		i++;
 	}
@@ -66,6 +70,7 @@ void	init_structs(t_philo *philos, int n_of_philos, t_data *data)
 		philos[i].meals = 0;
 		philos[i].fed = false;
 		philos[i].data->kill_switch = false;
+		philos[i].last_m = get_time();
 		if (i == n_of_philos - 1)
 			philos[i].right_fork = &philos[0].left_fork;
 		else

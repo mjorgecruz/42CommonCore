@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 08:37:58 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/15 11:16:52 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 20:54:25 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	monitoring(t_philo *philos)
 	long long	time;
 
 	i = 0;
-	//set_long(&philos->data->data, get_time(), &(philos->data->current));
 	set_int(&(philos->data->data), 0, &(philos->data->feds));
 	while (i < philos->data->n_philos)
 	{
@@ -99,7 +98,6 @@ void	monitoring(t_philo *philos)
 		if (philos[i].time_left >= philos->data->t_die)
 		{
 			set_bool(&(philos->data->data), true, &(philos->data->kill_switch));
-			//set_long(&philos->data->data, get_time(), &(philos->data->current));
 			time = get_long(&(philos->data->data), &(philos->data->current))
 				- get_long(&(philos->data->data), &(philos->start_time));
 			printf("%lld %d died\n", time, (i + 1));
@@ -107,14 +105,4 @@ void	monitoring(t_philo *philos)
 		}
 		i++;
 	}
-}
-
-long	get_time(void)
-{
-	struct timeval	current;
-	long			time;
-
-	gettimeofday(&current, NULL);
-	time = current.tv_sec * 1000 + current.tv_usec / 1000;
-	return (time);
 }

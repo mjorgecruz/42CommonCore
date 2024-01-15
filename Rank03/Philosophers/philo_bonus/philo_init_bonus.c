@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 11:26:07 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/15 14:45:44 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 20:37:27 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_structs(int n_of_philos, t_data *data)
 	sem_t	*forks;
 	sem_t	*death;
 	
-	philo[[][]masdaos = (t_philo *)malloc(sizeof(t_philo) * n_of_philos);
+	philos = (t_philo *)malloc(sizeof(t_philo) * n_of_philos);
 	if (philos == NULL)
 		return ;
 	sem_unlink("/fork");
@@ -58,6 +58,8 @@ int init_philos(t_philo *philos, int n_of_philos, t_data *data)
 	int	i;
 
 	i = 0;
+	data->ok = sem_open("/ok", O_CREAT, 0600, 1);
+	sem_wait(data->ok);
 	while (i < n_of_philos)
 	{
 		philos[i].pid = fork();
@@ -67,7 +69,9 @@ int init_philos(t_philo *philos, int n_of_philos, t_data *data)
 			return (process(&philos[i], data), 1);
 		i++;
 	}
-	
+	usleep(10);
+	sem_post(data->ok);
+	sem_close(data->ok);
 	while (1)
 	{	
 		if (waitpid(-1, NULL, WNOHANG) != 0)

@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 07:50:43 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/15 11:29:09 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 20:56:21 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,22 +76,22 @@ void	*routine(void *arg)
 
 	philo = (t_philo *) arg;
 	while (get_bool(&philo->data->data, &(philo->data->ok)))
-	;
+		;
 	set_long(&philo->data->data, get_time(), &(philo->start_time));
 	set_long(&philo->data->data, get_time(), &(philo->last_m));
 	thinking(philo, (*philo).id);
 	while (get_bool(&(philo->data->data), &philo->data->kill_switch) == false)
 	{
 		if (get_bool(&(philo->data->data), &philo->data->kill_switch) == true)
-		 	return (NULL);
+			return (NULL);
 		locking_forks(philo);
 		eating(philo, (*philo).id);
 		unlocking_forks(philo);
 		if (get_bool(&(philo->data->data), &philo->data->kill_switch) == true)
-		 	return (NULL);
+			return (NULL);
 		sleeping(philo, (*philo).id);
-		 if (get_bool(&(philo->data->data), &philo->data->kill_switch) == true)
-		 	return (NULL);
+		if (get_bool(&(philo->data->data), &philo->data->kill_switch) == true)
+			return (NULL);
 		thinking(philo, (*philo).id);
 	}
 	return (NULL);

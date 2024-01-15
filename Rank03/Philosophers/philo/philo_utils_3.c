@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_utils_2.c                                    :+:      :+:    :+:   */
+/*   philo_utils_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/09 11:45:19 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/15 20:51:54 by masoares         ###   ########.fr       */
+/*   Created: 2024/01/15 20:49:16 by masoares          #+#    #+#             */
+/*   Updated: 2024/01/15 20:53:00 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	set_int(pthread_mutex_t *mutex, int value, int *info)
+void	set_bool(pthread_mutex_t *mutex, bool value, bool *info)
 {
 	pthread_mutex_lock(mutex);
 	*info = value;
 	pthread_mutex_unlock(mutex);
 }
 
-int	get_int(pthread_mutex_t *mutex, int *info)
+bool	get_bool(pthread_mutex_t *mutex, bool *info)
 {
-	int	value;
+	bool	value;
 
 	pthread_mutex_lock(mutex);
 	value = *info;
@@ -29,19 +29,22 @@ int	get_int(pthread_mutex_t *mutex, int *info)
 	return (value);
 }
 
-void	set_long(pthread_mutex_t *mutex, long long value, long long *info)
+int	ft_usleep(long long milliseconds)
 {
-	pthread_mutex_lock(mutex);
-	*info = value;
-	pthread_mutex_unlock(mutex);
+	long long	start;
+
+	start = get_time();
+	while ((get_time() - start) < milliseconds)
+		usleep(500);
+	return (0);
 }
 
-long long	get_long(pthread_mutex_t *mutex, long long *info)
+long	get_time(void)
 {
-	long long	value;
+	struct timeval	current;
+	long			time;
 
-	pthread_mutex_lock(mutex);
-	value = *info;
-	pthread_mutex_unlock(mutex);
-	return (value);
+	gettimeofday(&current, NULL);
+	time = current.tv_sec * 1000 + current.tv_usec / 1000;
+	return (time);
 }

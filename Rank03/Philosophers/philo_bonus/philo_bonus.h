@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:45:10 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/12 12:03:42 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 19:23:36 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ typedef struct s_data
 	long long		start;
 	long long		current;
 	int				feds;
-	bool			ok;
 	bool			kill_switch;
 	sem_t			*forks;
+	sem_t			*ok;
 }	t_data;
 
 typedef struct s_philo

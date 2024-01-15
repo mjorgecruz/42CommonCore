@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 07:52:04 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/15 10:16:01 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 23:06:52 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ void		errors(int code);
 void		init_data(t_data *data, int *args);
 void		init_threads(t_philo *philos, int n_of_philos, t_data *data);
 void		init_structs(t_philo *philos, int n_of_philos, t_data *data);
-int 		f_condition(t_data *data);
+int			f_condition(t_philo *philos, t_data *data);
+void		*routine_alt(void *arg);
 
 /* ************************************************************************** */
 /*                              PHILO_FINEX                                   */

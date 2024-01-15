@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:46:18 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/15 11:36:13 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 23:28:07 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void	init_threads(t_philo *philos, int n_of_philos, t_data *data)
 	int	i;
 
 	i = 0;
-	if (n_of_philos < 2)
+	init_structs(philos, n_of_philos, data);
+	if (n_of_philos < 2 || data->n_times_eat == 0)
 	{
-		f_condition(data);
+		f_condition(philos, data);
 		return ;
 	}
-	init_structs(philos, n_of_philos, data);
 	philos->last_m = get_time();
 	while (i < n_of_philos)
 	{
@@ -74,14 +74,37 @@ void	init_structs(t_philo *philos, int n_of_philos, t_data *data)
 	}
 }
 
-int f_condition(t_data *data)
+int	f_condition(t_philo *philos, t_data *data)
 {
 	if (data->n_philos == 0)
+		return (errors(5), 0);
+	if (data->n_times_eat == 0)
 		return (0);
-	else
+	if (data->n_philos == 1)
 	{
-		printf("1 picked a fork");
-		printf("died");
+		pthread_create(&philos[0].philo, NULL, &routine_alt, &philos[0]);
 	}
-	return (1); 
+	while (get_bool(&data->data, &philos->data->kill_switch) == false)
+	{
+		set_long(&data->data, get_time(), &(data->current));
+		monitoring(philos);
+		if (get_int(&data->data, &data->feds) == data->n_philos)
+			set_bool(&data->data, true, &(data->kill_switch));
+	}
+	return (1);
+}
+
+
+void	*routine_alt(void *arg)
+{
+	t_philo		*philo;
+	long long	time;
+
+	philo = (t_philo *) arg;
+	set_long(&philo->data->data, get_time(), &philo->start_time);
+	set_long(&philo->data->data, get_time(), &(philo->last_m));
+	time = get_time()
+			- get_long(&(philo->data->data), &philo->start_time);
+	printf("%lld %d has taken a fork\n", time, 1);
+	return (NULL);
 }

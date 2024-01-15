@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 10:54:52 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/15 14:24:24 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 18:43:24 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ void	thinking(t_philo *philo, int id)
 {
 	long long	time;
 
-	time = get_time()
-		- get_long(philo->philex, &(philo->data->start));
+	time = - get_long(philo->philex, &(philo->data->start)) + get_time();
 	if (get_bool(philo->philex, &(philo->data->kill_switch)) == true)
 		return ;
 	sem_wait(philo->death);

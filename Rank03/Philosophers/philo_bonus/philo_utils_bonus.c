@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 14:13:31 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/15 14:24:19 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 20:47:07 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,7 @@ void	process(t_philo *philo, t_data *data)
 	data->current = get_time();
 	pthread_create(&(philo->philo_routine), NULL, &routine, philo);
 	while (get_bool(philo->philex, &philo->data->kill_switch) == false && (get_bool(philo->philex, &philo->fed) == false))
-	{
-		set_long(philo->philex, get_time(), &(data->current));
 		monitoring(philo);
-	}
 	pthread_join((philo->philo_routine), NULL);
 	sem_close(philo->philex);
 	return;
@@ -86,8 +83,11 @@ void	process(t_philo *philo, t_data *data)
 void	*routine(void *arg)
 {
 	t_philo	*philo;
-
 	philo = (t_philo *) arg;
+	sem_wait(philo->data->ok);
+	sem_post(philo->data->ok);
+	set_long(philo->philex, get_time(), &philo->data->start);
+	set_long(philo->philex, get_time(), &philo->last_m);
 	thinking(philo, (*philo).id);
 	while (get_bool(philo->philex, &philo->data->kill_switch) == false)
 	{
@@ -96,6 +96,9 @@ void	*routine(void *arg)
 		locking_forks(philo, philo->data->forks);
 		eating(philo, (*philo).id);
 		unlocking_forks(philo->data->forks);
+		sem_wait(philo->philex);
+		philo->last_m = get_time() - (philo->data->t_eat);;
+		sem_post(philo->philex);
 		sleeping(philo, (*philo).id);
 		thinking(philo, (*philo).id);
 		if (get_bool(philo->philex, &philo->data->kill_switch) == true || get_bool(philo->philex, &(philo->fed))== true)

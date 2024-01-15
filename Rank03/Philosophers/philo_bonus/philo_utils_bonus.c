@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 14:13:31 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/12 15:15:57 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:24:19 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ void	process(t_philo *philo, t_data *data)
 	{
 		set_long(philo->philex, get_time(), &(data->current));
 		monitoring(philo);
-		//if (get_int(philo->philex, &data->feds) == data->n_philos)
-		// 	set_bool(philo->philex, true, &(data->kill_switch));
 	}
 	pthread_join((philo->philo_routine), NULL);
 	sem_close(philo->philex);
@@ -90,11 +88,11 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *) arg;
-	// while (get_bool(philo->philex, &(philo->data->ok)))
-	// ;
 	thinking(philo, (*philo).id);
 	while (get_bool(philo->philex, &philo->data->kill_switch) == false)
 	{
+		if (get_bool(philo->philex, &philo->data->kill_switch) == true)
+		 	return (NULL);
 		locking_forks(philo, philo->data->forks);
 		eating(philo, (*philo).id);
 		unlocking_forks(philo->data->forks);
@@ -104,85 +102,4 @@ void	*routine(void *arg)
 		 	return (NULL);
 	}
 	return (NULL);
-}
-void	eating(t_philo *philo, int id)
-{
-	long long	time;
-
-	time = get_long(philo->philex, &(philo->data->current))
-		- get_long(philo->philex, &(philo->data->start));
-	if (get_bool(philo->philex, &(philo->data->kill_switch)) == true)
-		return ;
-	sem_wait(philo->death);
-	printf("%lld %d is eating\n", time, id);
-	sem_post(philo->death);
-	sem_wait(philo->philex);
-	philo->last_m = get_time();
-	sem_post(philo->philex);
-	ft_usleep(philo->data->t_eat);
-	philo->meals++;
-	if (philo->meals == philo->data->n_times_eat)
-		set_bool(philo->philex, true, &(philo->fed));
-}
-
-void	sleeping(t_philo *philo, int id)
-{
-	long long	time;
-
-	time = get_long(philo->philex, &(philo->data->current))
-		- get_long(philo->philex, &(philo->data->start));
-	if (get_bool(philo->philex, &(philo->data->kill_switch)) == true)
-		return ;
-	sem_wait(philo->death);
-	printf("%lld %d is sleeping\n", time, id);
-	sem_post(philo->death);
-	ft_usleep(philo->data->t_sleep);	
-}
-
-void	thinking(t_philo *philo, int id)
-{
-	long long	time;
-
-	time = get_long(philo->philex, &(philo->data->current))
-		- get_long(philo->philex, &(philo->data->start));
-	if (get_bool(philo->philex, &(philo->data->kill_switch)) == true)
-		return ;
-	sem_wait(philo->death);
-	printf("%lld %d is thinking\n", time, id);
-	sem_post(philo->death);
-}
-
-long long	get_time(void)
-{
-	struct timeval	current;
-	long			time;
-
-	gettimeofday(&current, NULL);
-	time = current.tv_sec * 1000 + current.tv_usec / 1000;
-	return (time);
-}
-
-void	monitoring(t_philo *philos)
-{
-	long long	time;
-
-	//set_long(philos->philex, get_time(), &(philos->data->current));
-	philos->time_left = get_long(philos->philex,
-				&(philos->data->current))
-			- get_long(philos->philex, &(philos->last_m));
-	if (philos->fed)
-	{
-		//sem_wait(philos->death);
-		return;
-	}
-	else if (philos->time_left >= philos->data->t_die)
-	{
-		set_bool(philos->philex, true, &(philos->data->kill_switch));
-		time = get_long(philos->philex, &(philos->data->current))
-			- get_long(philos->philex, &(philos->data->start));
-		sem_wait(philos->death);
-		printf("%lld %d died\n", time, philos->id);
-		return ;
-	}
-	//set_long(philos->philex, get_time(), &(philos->data->current));
 }

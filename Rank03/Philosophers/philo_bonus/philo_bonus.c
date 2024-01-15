@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:44:31 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/12 14:24:12 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 13:53:28 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int main (int ac, char **av)
 		i++;
 	}
 	init_data(&data, args);
-    init_structs(args[0], &data);
+    	init_structs(args[0], &data);
 	usleep(600000);
 	sem_unlink("/fork");
 	sem_unlink("/death");
@@ -46,7 +46,7 @@ void	locking_forks(t_philo *philo, sem_t *forks)
 	sem_wait(forks);
 	if (get_bool(philo->philex, &philo->data->kill_switch) == false)
 	{
-		time = get_long(philo->philex, &philo->data->current)
+		time = get_time()
 			- get_long(philo->philex, &philo->data->start);
 		sem_wait(philo->death);
 		printf("%ld %d has taken a fork\n", time, philo->id);

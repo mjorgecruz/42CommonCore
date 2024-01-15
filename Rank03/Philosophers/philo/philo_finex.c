@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:46:24 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/09 22:05:41 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 10:46:49 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	finex_threads(t_philo *philos, t_data *data)
 		while (i < (data->n_philos))
 		{
 			pthread_join(philos[i].philo, NULL);
-			i++;
+			i++;	
 		}
 		i = 0;
 		while (i < (data->n_philos))

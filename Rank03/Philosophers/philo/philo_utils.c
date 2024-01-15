@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 08:37:58 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/11 19:09:29 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 11:16:52 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	eating(t_philo *philo, int id)
 {
 	long long	time;
 
-	time = get_long(&(philo->data->data), &(philo->data->current))
-		- get_long(&(philo->data->data), &(philo->data->start));
 	if (get_bool(&(philo->data->data), &(philo->data->kill_switch)) == true)
 		return ;
+	time = get_time()
+		- get_long(&(philo->data->data), &(philo->start_time));
 	printf("%lld %d is eating\n", time, id);
 	pthread_mutex_lock(&(philo->data->data));
 	philo->last_m = get_time();
@@ -56,8 +56,8 @@ void	sleeping(t_philo *philo, int id)
 {
 	long long	time;
 
-	time = get_long(&(philo->data->data), &(philo->data->current))
-		- get_long(&(philo->data->data), &(philo->data->start));
+	time = get_time()
+		- get_long(&(philo->data->data), &(philo->start_time));
 	if (get_bool(&(philo->data->data), &(philo->data->kill_switch)) == true)
 		return ;
 	else
@@ -69,8 +69,8 @@ void	thinking(t_philo *philo, int id)
 {
 	long long	time;
 
-	time = get_long(&(philo->data->data), &(philo->data->current))
-		- get_long(&(philo->data->data), &(philo->data->start));
+	time = get_time()
+		- get_long(&(philo->data->data), &(philo->start_time));
 	if (get_bool(&(philo->data->data), &(philo->data->kill_switch)) == true)
 		return ;
 	else
@@ -101,7 +101,7 @@ void	monitoring(t_philo *philos)
 			set_bool(&(philos->data->data), true, &(philos->data->kill_switch));
 			//set_long(&philos->data->data, get_time(), &(philos->data->current));
 			time = get_long(&(philos->data->data), &(philos->data->current))
-				- get_long(&(philos->data->data), &(philos->data->start));
+				- get_long(&(philos->data->data), &(philos->start_time));
 			printf("%lld %d died\n", time, (i + 1));
 			return ;
 		}

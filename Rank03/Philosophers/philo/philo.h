@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 07:52:04 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/10 10:14:33 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/15 10:16:01 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_data
 	int				t_sleep;
 	int				n_times_eat;
 	int				n_philos;
-	long long		start;
 	long long		current;
 	bool			kill_switch;
 	int				feds;
@@ -47,6 +46,7 @@ typedef struct s_philo
 	int				meals;
 	long long		last_m;
 	int				time_left;
+	long long		start_time;
 }	t_philo;
 
 /* ************************************************************************** */

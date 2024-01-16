@@ -6,15 +6,15 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:44:31 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/15 20:31:21 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:48:22 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int main (int ac, char **av)
+int	main(int ac, char **av)
 {
-    int		*args;
+	int		*args;
 	t_data	data;
 	int		i;
 
@@ -31,7 +31,9 @@ int main (int ac, char **av)
 		i++;
 	}
 	init_data(&data, args);
-    	init_structs(args[0], &data);
+	if (data.n_times_eat == 0)
+		return (free(args), 1);
+	init_structs(args[0], &data);
 	usleep(600000);
 	sem_unlink("/fork");
 	sem_unlink("/death");

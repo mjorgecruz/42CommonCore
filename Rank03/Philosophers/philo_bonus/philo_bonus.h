@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:45:10 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/15 19:23:36 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/16 11:20:24 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <pthread.h>
 # include <limits.h>
 # include <sys/time.h>
-# include<sys/wait.h>
+# include <sys/wait.h>
 # include <stdbool.h>
 # include <signal.h>
 # include <semaphore.h>
@@ -35,9 +35,9 @@ typedef struct s_data
 	long long		start;
 	long long		current;
 	int				feds;
+	bool			ok;
 	bool			kill_switch;
 	sem_t			*forks;
-	sem_t			*ok;
 }	t_data;
 
 typedef struct s_philo
@@ -49,12 +49,12 @@ typedef struct s_philo
 	int				meals;
 	long long		last_m;
 	int				time_left;
-	pid_t           pid;
+	pid_t			pid;
 	sem_t			*philex;
 	sem_t			*death;
 }	t_philo;
 
-int	    	ft_atoi(char *num);
+int			ft_atoi(char *num);
 void		init_data(t_data *data, int *args);
 void		init_structs(int n_of_philos, t_data *data);
 int			init_philos(t_philo *philos, int n_of_philos, t_data *data);
@@ -81,5 +81,6 @@ long long	get_long(sem_t *philo, long long *info);
 void		set_bool(sem_t *philo, bool value, bool *info);
 bool		get_bool(sem_t *philo, bool *info);
 int			ft_usleep(long long milliseconds);
+void		*routine_alt(void *arg);
 
 #endif

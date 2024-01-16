@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:46:18 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/15 23:28:07 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:29:05 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	init_threads(t_philo *philos, int n_of_philos, t_data *data)
 		f_condition(philos, data);
 		return ;
 	}
-	philos->last_m = get_time();
 	while (i < n_of_philos)
 	{
-		pthread_create(&philos[i].philo, NULL, &routine, &philos[i]);
+		if (pthread_create(&philos[i].philo, NULL, &routine, &philos[i]) != 0)
+			return ;
 		i++;
 	}
 	set_bool(&data->data, true, &(data->ok));
@@ -65,6 +65,7 @@ void	init_structs(t_philo *philos, int n_of_philos, t_data *data)
 		philos[i].fed = false;
 		philos[i].data->kill_switch = false;
 		philos[i].last_m = get_time();
+		philos[i].start_time = get_time();
 		if (i == n_of_philos - 1)
 			philos[i].right_fork = &philos[0].left_fork;
 		else
@@ -94,7 +95,6 @@ int	f_condition(t_philo *philos, t_data *data)
 	return (1);
 }
 
-
 void	*routine_alt(void *arg)
 {
 	t_philo		*philo;
@@ -104,7 +104,7 @@ void	*routine_alt(void *arg)
 	set_long(&philo->data->data, get_time(), &philo->start_time);
 	set_long(&philo->data->data, get_time(), &(philo->last_m));
 	time = get_time()
-			- get_long(&(philo->data->data), &philo->start_time);
+		- get_long(&(philo->data->data), &philo->start_time);
 	printf("%lld %d has taken a fork\n", time, 1);
 	return (NULL);
 }

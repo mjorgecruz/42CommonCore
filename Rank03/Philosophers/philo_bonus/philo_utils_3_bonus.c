@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 10:54:52 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/15 18:43:24 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:46:30 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	eating(t_philo *philo, int id)
 	sem_wait(philo->death);
 	printf("%lld %d is eating\n", time, id);
 	sem_post(philo->death);
+	ft_usleep(philo->data->t_eat);
 	sem_wait(philo->philex);
 	philo->last_m = get_time();
 	sem_post(philo->philex);
-	ft_usleep(philo->data->t_eat);
 	philo->meals++;
 	if (philo->meals == philo->data->n_times_eat)
 		set_bool(philo->philex, true, &(philo->fed));
@@ -43,14 +43,15 @@ void	sleeping(t_philo *philo, int id)
 	sem_wait(philo->death);
 	printf("%lld %d is sleeping\n", time, id);
 	sem_post(philo->death);
-	ft_usleep(philo->data->t_sleep);	
+	ft_usleep(philo->data->t_sleep);
 }
 
 void	thinking(t_philo *philo, int id)
 {
 	long long	time;
 
-	time = - get_long(philo->philex, &(philo->data->start)) + get_time();
+	time = get_time()
+		- get_long(philo->philex, &(philo->data->start));
 	if (get_bool(philo->philex, &(philo->data->kill_switch)) == true)
 		return ;
 	sem_wait(philo->death);
@@ -73,9 +74,9 @@ void	monitoring(t_philo *philos)
 	long long	time;
 
 	philos->time_left = get_time()
-			- get_long(philos->philex, &(philos->last_m));
+		- get_long(philos->philex, &(philos->last_m));
 	if (get_bool(philos->philex, &philos->fed))
-		return;
+		return ;
 	else if (philos->time_left >= philos->data->t_die)
 	{
 		set_bool(philos->philex, true, &(philos->data->kill_switch));

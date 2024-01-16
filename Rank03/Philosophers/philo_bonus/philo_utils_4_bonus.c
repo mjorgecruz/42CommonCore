@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_utils_3.c                                    :+:      :+:    :+:   */
+/*   philo_utils_4_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/16 10:11:18 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/16 10:13:01 by masoares         ###   ########.fr       */
+/*   Created: 2024/01/16 10:59:47 by masoares          #+#    #+#             */
+/*   Updated: 2024/01/16 11:02:49 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
-void	set_bool(pthread_mutex_t *mutex, bool value, bool *info)
+void	set_bool(sem_t *philo, bool value, bool *info)
 {
-	pthread_mutex_lock(mutex);
+	sem_wait(philo);
 	*info = value;
-	pthread_mutex_unlock(mutex);
+	sem_post(philo);
 }
 
-bool	get_bool(pthread_mutex_t *mutex, bool *info)
+bool	get_bool(sem_t *philo, bool *info)
 {
 	bool	value;
 
-	pthread_mutex_lock(mutex);
+	sem_wait(philo);
 	value = *info;
-	pthread_mutex_unlock(mutex);
+	sem_post(philo);
 	return (value);
 }
 
@@ -34,17 +34,7 @@ int	ft_usleep(long long milliseconds)
 	long long	start;
 
 	start = get_time();
-	while ((get_time() - start) < milliseconds)
+	while ((get_time() - start) <= milliseconds)
 		usleep(500);
 	return (0);
-}
-
-long	get_time(void)
-{
-	struct timeval	current;
-	long			time;
-
-	gettimeofday(&current, NULL);
-	time = current.tv_sec * 1000 + current.tv_usec / 1000;
-	return (time);
 }

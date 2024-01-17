@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 08:37:58 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/16 12:37:47 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/16 17:33:12 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	thinking(t_philo *philo, int id)
 		return ;
 	else
 		printf("%lld %d is thinking\n", time, id);
+	ft_usleep(1);
 }
 
 void	monitoring(t_philo *philos)

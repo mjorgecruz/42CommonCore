@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 07:50:43 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/16 12:37:54 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/16 17:32:28 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	*routine(void *arg)
 	set_long(&philo->data->data, get_time(), &(philo->start_time));
 	set_long(&philo->data->data, get_time(), &(philo->last_m));
 	thinking(philo, (*philo).id);
-	ft_usleep(1);
 	while (get_bool(&(philo->data->data), &philo->data->kill_switch) == false)
 	{
 		if (get_bool(&(philo->data->data), &philo->data->kill_switch) == true)

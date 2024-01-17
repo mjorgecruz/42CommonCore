@@ -6,25 +6,23 @@
 #    By: masoares <masoares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/16 12:55:02 by masoares          #+#    #+#              #
-#    Updated: 2024/01/16 13:09:08 by masoares         ###   ########.fr        #
+#    Updated: 2024/01/16 17:14:41 by masoares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philo
+NAME = ./philo/philo
 
-NAME_BONUS = philo_bonus
+NAME_BONUS = ./philo_bonus/philo_bonus
 
 all: $(NAME)
 
 $(NAME):
 	make -C ./philo
-	mv ./philo/philo philo
-		
+	
 bonus: $(NAME_BONUS)
 
 $(NAME_BONUS):
 	make -C ./philo_bonus
-	mv ./philo_bonus/philo_bonus philo_bonus
 
 fclean: clean
 		rm -f $(NAME)

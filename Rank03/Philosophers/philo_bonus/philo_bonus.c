@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:44:31 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/16 12:48:22 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/16 17:52:08 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int ac, char **av)
 		return (-2);
 	while (i < 5)
 	{
-		if (args[i] < -1)
+		if (args[i] < -1 || args[0] == 0)
 			return (errors(1), free(args), -3);
 		i++;
 	}

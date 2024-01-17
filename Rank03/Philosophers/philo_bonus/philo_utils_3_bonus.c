@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 10:54:52 by masoares          #+#    #+#             */
-/*   Updated: 2024/01/16 12:46:30 by masoares         ###   ########.fr       */
+/*   Updated: 2024/01/16 17:41:27 by masoares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	thinking(t_philo *philo, int id)
 	sem_wait(philo->death);
 	printf("%lld %d is thinking\n", time, id);
 	sem_post(philo->death);
+	ft_usleep(1);
 }
 
 long long	get_time(void)

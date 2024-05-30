@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:41:26 by masoares          #+#    #+#             */
-/*   Updated: 2024/05/24 15:51:04 by masoares         ###   ########.fr       */
+/*   Updated: 2024/05/29 08:58:28 by masoares         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -16,21 +16,23 @@
 
 #include "ClapTrap.hpp"
 
-class FragTrap: public ClapTrap
+class FragTrap: virtual public ClapTrap
 {
+    protected:
+        const unsigned int HealthS;
+        const unsigned int EnergyS;
+        const unsigned int AttDamageS;
+    
     public:
         FragTrap();
         ~FragTrap();
         FragTrap(std::string name);
+        FragTrap(FragTrap &src);
         FragTrap &operator= (FragTrap &src);
         
         void highFivesGuys( void );
 
-        void attack(const std::string& target);
-        void takeDamage(unsigned int amount);
-        void beRepaired(unsigned int amount);
-        void setAttDamage( unsigned int amount);
-        void blow(FragTrap &attacked);
+    //void attack(const std::string& target);
 };
 
 #endif

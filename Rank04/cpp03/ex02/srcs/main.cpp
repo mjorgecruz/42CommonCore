@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 08:44:15 by masoares          #+#    #+#             */
-/*   Updated: 2024/05/24 16:01:47 by masoares         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:23:08 by masoares         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -35,7 +35,7 @@ int main (void)
     B.blow(A);
     
     ScavTrap E("Esteban");
-    ScavTrap F("Frances");
+    ScavTrap F(E);
     ScavTrap G("Guillaume");
 
     E.setAttDamage(2);
@@ -53,7 +53,7 @@ int main (void)
     F.blow(E);
 
     FragTrap H("Hugh");
-    FragTrap I("Iolanda");
+    FragTrap I(H);
     FragTrap J("Jacques");
 
     H.setAttDamage(2);

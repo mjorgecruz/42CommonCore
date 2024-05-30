@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:41:26 by masoares          #+#    #+#             */
-/*   Updated: 2024/05/24 15:51:04 by masoares         ###   ########.fr       */
+/*   Updated: 2024/05/28 10:56:11 by masoares         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -22,15 +22,12 @@ class FragTrap: public ClapTrap
         FragTrap();
         ~FragTrap();
         FragTrap(std::string name);
+        FragTrap(FragTrap  &src);
         FragTrap &operator= (FragTrap &src);
         
         void highFivesGuys( void );
 
         void attack(const std::string& target);
-        void takeDamage(unsigned int amount);
-        void beRepaired(unsigned int amount);
-        void setAttDamage( unsigned int amount);
-        void blow(FragTrap &attacked);
 };
 
 #endif

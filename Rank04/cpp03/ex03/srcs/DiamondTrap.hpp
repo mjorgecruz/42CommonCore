@@ -6,19 +6,19 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 09:40:12 by masoares          #+#    #+#             */
-/*   Updated: 2024/05/24 17:05:50 by masoares         ###   ########.fr       */
+/*   Updated: 2024/05/30 10:26:49 by masoares         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #pragma once
-#ifndef SCAVTRAP_HPP
-# define SCAVTRAP_HPP
+#ifndef DIAMONDTRAP_HPP
+# define DIAMONDTRAP_HPP
 
 #include "ClapTrap.hpp"
 #include "ScavTrap.hpp"
 #include "FragTrap.hpp"
 
-class DiamondTrap: public ScavTrap, public FragTrap
+class DiamondTrap: public FragTrap, public ScavTrap
 {
     private:
         std::string Name;
@@ -27,15 +27,12 @@ class DiamondTrap: public ScavTrap, public FragTrap
         DiamondTrap();
         ~DiamondTrap();
         DiamondTrap(std::string name);
+        DiamondTrap(DiamondTrap &src);
         DiamondTrap &operator= (DiamondTrap &src);
         
         void whoAmI();
 
         void attack(const std::string& target);
-        void takeDamage(unsigned int amount);
-        void beRepaired(unsigned int amount);
-        void setAttDamage( unsigned int amount);
-        void blow(DiamondTrap &attacked);
 };
 
 #endif

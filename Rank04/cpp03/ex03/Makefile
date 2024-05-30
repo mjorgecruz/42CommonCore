@@ -6,7 +6,7 @@
 #    By: masoares <masoares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 10:05:21 by masoares          #+#    #+#              #
-#    Updated: 2024/05/24 16:45:35 by masoares         ###   ########.fr        #
+#    Updated: 2024/05/28 10:46:39 by masoares         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,8 +20,7 @@ END = \033[0m
 
 NAME = 	exec
 
-CFLAGS = -Wall -Werror -Wextra -std=c++98 -g
-
+CFLAGS = -Wall -Werror -Wextra -std=c++98 -g -Wshadow
 INCDIR:=srcs
 ODIR:=obj
 

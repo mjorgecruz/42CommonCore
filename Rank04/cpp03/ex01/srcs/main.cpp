@@ -6,7 +6,7 @@
 /*   By: masoares <masoares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 08:44:15 by masoares          #+#    #+#             */
-/*   Updated: 2024/05/24 15:31:25 by masoares         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:20:36 by masoares         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -34,7 +34,7 @@ int main (void)
     B.blow(A);
     
     ScavTrap E("Esteban");
-    ScavTrap F("Frances");
+    ScavTrap F(E);
     ScavTrap G("Guillaume");
 
     E.setAttDamage(2);
